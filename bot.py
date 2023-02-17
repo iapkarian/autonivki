@@ -18,9 +18,9 @@ def main_menu():
 
 def commerce():
     customer_markup = types.ReplyKeyboardMarkup(True)
-    customer_markup.row('Їжа та кава')
-    customer_markup.row("Краса та здоров'я")
+    customer_markup.row('Їжа та кава', "Краса та здоров'я")
     customer_markup.row('Все інше (категорію придумайте самі)')
+    customer_markup.row('Головне меню')
     return customer_markup
 
 
