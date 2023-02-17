@@ -10,16 +10,24 @@ bot = telebot.TeleBot(config.bot_token)
 
 def main_menu():
     customer_markup = types.ReplyKeyboardMarkup(True)
-    customer_markup.row('Почетний ЛОСЬ')
-    customer_markup.row('Світло є чи нема? bot', 'Чати ЖК')
-    customer_markup.row('Пошта', 'Контакти ЖЕК')
+    customer_markup.row('Світло є чи нема? bot')
+    customer_markup.row('Комерція в ЖК', 'Чати ЖК')
+    customer_markup.row('Пошта, поштомати', 'Контакти ЖЕК')
+    return customer_markup
+
+
+def commerce():
+    customer_markup = types.ReplyKeyboardMarkup(True)
+    customer_markup.row('Їжа та кава')
+    customer_markup.row("Краса та здоров'я")
+    customer_markup.row('Все інше (категорію придумайте самі)')
     return customer_markup
 
 
 def chats_menu():
     customer_markup = types.ReplyKeyboardMarkup(True)
     customer_markup.row('Дошки оголошень', 'Помийка офіційна', 'Затишний підвал')
-    customer_markup.row('Нявки і гавки Парк', 'Веселий парк')
+    customer_markup.row('Нявки і гавки Парк', 'Веселий парк', 'Адміни будинків')
     customer_markup.row('Головне меню')
     return customer_markup
 
@@ -82,6 +90,16 @@ def handle_text(message):
         text = 'Чат для івентів, ярмарок та будь-якої активності\n' \
                'https://t.me/+fUwKp1_4XuhiMzI6'
         bot.send_message(message.from_user.id, text=text, parse_mode='html')
+    elif message.text == 'Адміни будинків':
+        text = 'Щоб долучитися до чатів власників квартир Вашого будинку та будинків всього ЖК, ' \
+            'звертайтеся до адмінів чатів у телеграмі :\n' \
+            '1 буд: @Yev7777 \n2 буд: @Olena_Maistrenko \n3 буд: @RNatalii \n4 буд: @AnnaZaya45\n'\
+            '5 буд: @BuldozeR_23 \n6 буд: @alison2009 \n7 буд: @sergeym0307 \n8 буд: @am1335\n'\
+            "9 буд: @Catterrin \n10 буд: @luzaner \n11 буд: @Tetiana_Kurylenko \n12 буд : @passst'et"\
+            'Для приєднання до чату необхідно надіслати адміну чату в особисті повідомлення фото першої сторінки ' \
+            'договору з ІГБ або зустрітися особисто, щоб надати документ-підтвердження права власності. ' \
+            'Вдячні за співпрацю.'
+        bot.send_message(message.from_user.id, text=text, parse_mode='html')
     elif message.text == 'Нявки і гавки Парк':
         bot.send_message(message.from_user.id, text='https://t.me/+WKxiW13PG3D-UzHp', parse_mode='html')
     elif message.text == 'Затишний підвал':
@@ -94,9 +112,9 @@ def handle_text(message):
                 'Комерція, яка знаходиться в ЖК та поряд \n' \
                 'https://t.me/+f_-wG5NaAUE0NDAy \n\n'
         bot.send_message(message.from_user.id,  text=text1, parse_mode='html')
+
     elif message.text == 'Контакти ЖЕК':
         telephones = '<b>Список працівників ЖК "Нивки Парк"</b> \n' \
-                'Савицька Світлана (управитель) +380630315441 \n' \
                 'Ігор Іванович (головний інженер) +380632699518 \n' \
                 'Погребняк Інна Володимірівна (майстер) +380932973064 \n' \
                 'Начальник охорони +380632485290 \n\n' \
@@ -128,12 +146,26 @@ def handle_text(message):
 
         bot.send_message(message.chat.id, text=auto_start_text, reply_markup=auto_markup)
 
+    elif message.text == 'Комерція в ЖК':
+        commerce()
+        bot.send_message(message.chat.id, text='Комерція на території ЖК', reply_markup=commerce())
+
+    elif message.text == 'Їжа та кава':
+        text = 'Йде збір інформації. Для додавання своєї комерції - пишіть адміну бота'
+        bot.send_message(message.from_user.id, text=text, parse_mode='html')
+    elif message.text == "Краса та здоров'я":
+        text = 'Йде збір інформації. Для додавання своєї комерції - пишіть адміну бота'
+        bot.send_message(message.from_user.id, text=text, parse_mode='html')
+    elif message.text == 'Все інше (категорію придумайте самі)':
+        text = 'Йде збір інформації. Для додавання своєї комерції - пишіть адміну бота'
+        bot.send_message(message.from_user.id, text=text, parse_mode='html')
+
     elif message.text == 'Головне меню':
         main_menu()
 
         bot.send_message(message.chat.id, text='Головне меню', reply_markup=main_menu())
 
-    elif message.text == 'Пошта':
+    elif message.text == 'Пошта, поштомати':
         post_text = 'Відділення Укрпошти <b>03117</b> \n' \
                     'Проспект Перемоги 67Г (3й будинок)\n' \
                     'Графік роботи: \n' \
@@ -142,7 +174,10 @@ def handle_text(message):
                     'Нд, Пн - вихідний \n\n' \
                     'Поштомати Нової Пошти <b>21963, 31890</b>\n' \
                     'Шоурум "Здорова вода"\n' \
-                    'Проспект Перемоги 67В (4 будинок)\n'
+                    'Проспект Перемоги 67В (4 будинок)\n\n' \
+                    '<b>Meest</b> \n' \
+                    'Проспект Перемоги 65б (6й будинок)\n' \
+                    'Забирати у відділенні Розетки \n'
 
         bot.send_message(message.chat.id, text=post_text, parse_mode='html')
 
